@@ -1,0 +1,30 @@
+START get_item
+
+SET currentRoom
+SET rooms
+SET inventory
+
+OUTPUT "Enter an item command:"
+INPUT getCommand
+
+IF getCommand begins with "get "
+    SET requestedItem = item name from getCommand
+    SET roomItem = item in rooms[currentRoom]
+
+    IF requestedItem is already in inventory
+        OUTPUT "You already have that item"
+
+    ELSE IF roomItem exists AND requestedItem matches roomItem
+        ADD roomItem to inventory
+        REMOVE roomItem from rooms[currentRoom]
+        OUTPUT roomItem + " retrieved!"
+
+    ELSE
+        OUTPUT "That item is not available in this room"
+
+ELSE
+    OUTPUT "Invalid item command"
+
+RETURN inventory
+
+END get_item

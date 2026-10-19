@@ -1,0 +1,34 @@
+START move_player
+
+SET currentRoom
+SET rooms
+
+OUTPUT "Enter a movement command:"
+INPUT moveCommand
+
+IF moveCommand is "go north"
+    SET direction = "north"
+
+ELSE IF moveCommand is "go south"
+    SET direction = "south"
+
+ELSE IF moveCommand is "go east"
+    SET direction = "east"
+
+ELSE IF moveCommand is "go west"
+    SET direction = "west"
+
+ELSE
+    OUTPUT "Invalid movement command"
+    RETURN currentRoom
+
+IF direction exists in rooms[currentRoom]
+    SET currentRoom = rooms[currentRoom][direction]
+    OUTPUT "You moved to " + currentRoom
+
+ELSE
+    OUTPUT "You can't go that way"
+
+RETURN currentRoom
+
+END move_player
