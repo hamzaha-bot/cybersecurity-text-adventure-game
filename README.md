@@ -232,7 +232,7 @@ This development process demonstrates how requirements, pseudocode, planning, de
 
 ## Future Enhancements
 
-The original academic version will remain preserved while an enhanced version of the game is developed separately.
+The portfolio-ready version of the original academic project will remain preserved while an enhanced version of the game is developed separately.
 
 Planned improvements include:
 
