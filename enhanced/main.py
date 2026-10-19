@@ -66,6 +66,19 @@ game_state = "title"
 current_room = "Main Lobby"
 inventory = []
 
+# Player position inside the room.
+player_x = 95
+player_y = 91
+
+# Player movement settings.
+player_speed = 1
+player_direction = "down"
+
+# Walking animation.
+walk_frame = 0
+walk_timer = 0
+is_walking = False
+
 rooms = {
     "Main Lobby": {
         "description": [
@@ -95,27 +108,362 @@ def draw_pixel_lock(surface, x, y):
 
 
 def draw_player(surface, x, y):
-    """Draw a temporary pixel cybersecurity analyst."""
+    """Draw the pixel-art cybersecurity analyst."""
 
-    # Head
-    pygame.draw.rect(surface, WHITE, (x + 4, y, 8, 7))
+    # Character palette
+    skin = (232, 184, 145)
+    skin_shadow = (196, 137, 99)
 
-    # Hair
-    pygame.draw.rect(surface, DARK_BLUE, (x + 3, y, 10, 3))
+    hair = (79, 48, 29)
+    hair_light = (112, 68, 38)
 
-    # Body
-    pygame.draw.rect(surface, CYAN, (x + 2, y + 7, 12, 10))
+    eye = (18, 16, 20)
 
-    # Equipment
-    pygame.draw.rect(surface, PANEL_BLUE, (x + 5, y + 9, 6, 5))
-    pygame.draw.rect(surface, GREEN, (x + 7, y + 10, 2, 2))
+    hoodie = (25, 34, 52)
+    hoodie_light = (42, 57, 78)
 
-    # Legs
-    pygame.draw.rect(surface, WHITE, (x + 3, y + 17, 4, 6))
-    pygame.draw.rect(surface, WHITE, (x + 9, y + 17, 4, 6))
+    shirt = (36, 210, 220)
+    shirt_dark = (20, 142, 154)
+
+    pants = (20, 28, 43)
+    shoes = (105, 118, 137)
+
+    # --------------------------------------------------
+    # SHADOW
+    # --------------------------------------------------
+
+    pygame.draw.rect(
+        surface,
+        (10, 13, 21),
+        (x + 4, y + 29, 15, 2)
+    )
+
+    # --------------------------------------------------
+    # EARS
+    # --------------------------------------------------
+
+    pygame.draw.rect(
+        surface,
+        skin_shadow,
+        (x + 3, y + 7, 2, 4)
+    )
+
+    pygame.draw.rect(
+        surface,
+        skin_shadow,
+        (x + 17, y + 7, 2, 4)
+    )
+
+    # --------------------------------------------------
+    # FACE
+    # --------------------------------------------------
+
+    pygame.draw.rect(
+        surface,
+        skin,
+        (x + 5, y + 4, 12, 11)
+    )
+
+    # Face shadow
+    pygame.draw.rect(
+        surface,
+        skin_shadow,
+        (x + 5, y + 13, 12, 2)
+    )
+
+    # Small face highlight
+    pygame.draw.rect(
+        surface,
+        (244, 199, 158),
+        (x + 6, y + 5, 3, 2)
+    )
+
+    # --------------------------------------------------
+    # HAIR
+    # --------------------------------------------------
+
+    # Main top shape
+    pygame.draw.rect(
+        surface,
+        hair,
+        (x + 5, y, 11, 2)
+    )
+
+    pygame.draw.rect(
+        surface,
+        hair,
+        (x + 3, y + 2, 15, 3)
+    )
+
+    # Left side
+    pygame.draw.rect(
+        surface,
+        hair,
+        (x + 3, y + 4, 3, 5)
+    )
+
+    # Right side
+    pygame.draw.rect(
+        surface,
+        hair,
+        (x + 16, y + 4, 3, 4)
+    )
+
+    # Uneven fringe so the hair does not look like a helmet
+    pygame.draw.rect(
+        surface,
+        hair,
+        (x + 6, y + 4, 4, 2)
+    )
+
+    pygame.draw.rect(
+        surface,
+        hair,
+        (x + 13, y + 4, 3, 1)
+    )
+
+    # Hair highlights
+    pygame.draw.rect(
+        surface,
+        hair_light,
+        (x + 6, y + 1, 4, 1)
+    )
+
+    pygame.draw.rect(
+        surface,
+        hair_light,
+        (x + 4, y + 3, 3, 1)
+    )
+
+    # --------------------------------------------------
+    # FACE DETAILS
+    # --------------------------------------------------
+
+    # Eyebrows
+    pygame.draw.rect(
+        surface,
+        hair,
+        (x + 7, y + 7, 2, 1)
+    )
+
+    pygame.draw.rect(
+        surface,
+        hair,
+        (x + 13, y + 7, 2, 1)
+    )
+
+    # Eyes
+    pygame.draw.rect(
+        surface,
+        eye,
+        (x + 7, y + 8, 2, 2)
+    )
+
+    pygame.draw.rect(
+        surface,
+        eye,
+        (x + 13, y + 8, 2, 2)
+    )
+
+    # Eye highlights
+    pygame.draw.rect(
+        surface,
+        WHITE,
+        (x + 7, y + 8, 1, 1)
+    )
+
+    pygame.draw.rect(
+        surface,
+        WHITE,
+        (x + 13, y + 8, 1, 1)
+    )
+
+    # Nose
+    pygame.draw.rect(
+        surface,
+        skin_shadow,
+        (x + 10, y + 10, 2, 2)
+    )
+
+    # Mouth
+    pygame.draw.rect(
+        surface,
+        (116, 65, 58),
+        (x + 9, y + 13, 4, 1)
+    )
+
+    # --------------------------------------------------
+    # NECK
+    # --------------------------------------------------
+
+    pygame.draw.rect(
+        surface,
+        skin_shadow,
+        (x + 9, y + 15, 4, 2)
+    )
+
+    # --------------------------------------------------
+    # HOODIE
+    # --------------------------------------------------
+
+    # Shoulders / hood
+    pygame.draw.rect(
+        surface,
+        hoodie_light,
+        (x + 3, y + 16, 16, 3)
+    )
+
+    # Torso
+    pygame.draw.rect(
+        surface,
+        hoodie,
+        (x + 4, y + 18, 14, 8)
+    )
+
+    # Hoodie edge highlights
+    pygame.draw.rect(
+        surface,
+        hoodie_light,
+        (x + 4, y + 18, 2, 7)
+    )
+
+    pygame.draw.rect(
+        surface,
+        hoodie_light,
+        (x + 16, y + 18, 2, 7)
+    )
+
+    # Shirt visible underneath
+    pygame.draw.rect(
+        surface,
+        shirt,
+        (x + 9, y + 18, 4, 6)
+    )
+
+    pygame.draw.rect(
+        surface,
+        shirt_dark,
+        (x + 10, y + 20, 2, 3)
+    )
+
+    # Hoodie drawstrings
+    pygame.draw.rect(
+        surface,
+        WHITE,
+        (x + 8, y + 18, 1, 3)
+    )
+
+    pygame.draw.rect(
+        surface,
+        WHITE,
+        (x + 13, y + 18, 1, 3)
+    )
+
+    # --------------------------------------------------
+    # ARMS
+    # --------------------------------------------------
+
+    pygame.draw.rect(
+        surface,
+        hoodie,
+        (x + 1, y + 18, 3, 7)
+    )
+
+    pygame.draw.rect(
+        surface,
+        hoodie,
+        (x + 18, y + 18, 3, 7)
+    )
+
+    # Cuffs
+    pygame.draw.rect(
+        surface,
+        hoodie_light,
+        (x + 1, y + 23, 3, 2)
+    )
+
+    pygame.draw.rect(
+        surface,
+        hoodie_light,
+        (x + 18, y + 23, 3, 2)
+    )
+
+    # Hands
+    pygame.draw.rect(
+        surface,
+        skin,
+        (x + 1, y + 25, 3, 2)
+    )
+
+    pygame.draw.rect(
+        surface,
+        skin,
+        (x + 18, y + 25, 3, 2)
+    )
+
+    # --------------------------------------------------
+    # CYBERSECURITY BADGE
+    # --------------------------------------------------
+
+    pygame.draw.rect(
+        surface,
+        CYAN,
+        (x + 14, y + 20, 3, 4)
+    )
+
+    pygame.draw.rect(
+        surface,
+        GREEN,
+        (x + 15, y + 21, 1, 1)
+    )
+
+    # --------------------------------------------------
+    # PANTS
+    # --------------------------------------------------
+
+    pygame.draw.rect(
+        surface,
+        pants,
+        (x + 6, y + 26, 5, 4)
+    )
+
+    pygame.draw.rect(
+        surface,
+        pants,
+        (x + 12, y + 26, 5, 4)
+    )
+
+    # --------------------------------------------------
+    # SHOES
+    # --------------------------------------------------
+
+    pygame.draw.rect(
+        surface,
+        shoes,
+        (x + 5, y + 29, 6, 2)
+    )
+
+    pygame.draw.rect(
+        surface,
+        shoes,
+        (x + 12, y + 29, 6, 2)
+    )
+
+    # Light pixels on shoes
+    pygame.draw.rect(
+        surface,
+        WHITE,
+        (x + 6, y + 29, 2, 1)
+    )
+
+    pygame.draw.rect(
+        surface,
+        WHITE,
+        (x + 13, y + 29, 2, 1)
+    )
 
 
-def draw_lobby_scene(surface):
+def draw_lobby_scene(surface, player_x, player_y):
     """Draw the pixel-art Main Lobby."""
 
     # Room area
@@ -159,7 +507,7 @@ def draw_lobby_scene(surface):
     pygame.draw.rect(surface, (100, 30, 30), (163, 54, 18, 2))
 
     # Player
-    draw_player(surface, 99, 92)
+    draw_player(surface, player_x, player_y)
 
 
 # --------------------------------------------------
@@ -329,7 +677,7 @@ def draw_game_screen(surface):
         (14, 11)
     )
 
-    draw_lobby_scene(surface)
+    draw_lobby_scene(surface, player_x, player_y)
     draw_room_panel(surface)
     draw_inventory_boxes(surface)
 
@@ -358,7 +706,7 @@ def draw_hud_text(surface):
         185
         )
     )
-    
+
     # System status
     status = hud_status_font.render(
         "SYSTEM: COMPROMISED",
@@ -507,25 +855,77 @@ show_prompt = True
 
 while running:
 
+    # --------------------------------------------------
+    # EVENTS
+    # --------------------------------------------------
+
     for event in pygame.event.get():
 
         if event.type == pygame.QUIT:
             running = False
 
-        if event.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN:
 
+            # Start game from title screen.
             if game_state == "title":
-
                 if event.key == pygame.K_RETURN:
                     game_state = "game"
 
+            # Return to title screen.
             elif game_state == "game":
-
                 if event.key == pygame.K_ESCAPE:
                     game_state = "title"
 
     # --------------------------------------------------
-    # TITLE
+    # PLAYER MOVEMENT
+    # --------------------------------------------------
+
+    if game_state == "game":
+
+        keys = pygame.key.get_pressed()
+
+        move_x = 0
+        move_y = 0
+
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            move_x = -player_speed
+            player_direction = "left"
+
+        elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+            move_x = player_speed
+            player_direction = "right"
+
+        if keys[pygame.K_UP] or keys[pygame.K_w]:
+            move_y = -player_speed
+            player_direction = "up"
+
+        elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
+            move_y = player_speed
+            player_direction = "down"
+
+        is_walking = move_x != 0 or move_y != 0
+
+        player_x += move_x
+        player_y += move_y
+
+        # Keep player inside the visible Main Lobby.
+        player_x = max(18, min(player_x, 177))
+        player_y = max(68, min(player_y, 94))
+
+        # Walking animation timer.
+        if is_walking:
+            walk_timer += 1
+
+            if walk_timer >= 10:
+                walk_frame = 1 - walk_frame
+                walk_timer = 0
+
+        else:
+            walk_frame = 0
+            walk_timer = 0
+
+    # --------------------------------------------------
+    # TITLE SCREEN
     # --------------------------------------------------
 
     if game_state == "title":
@@ -542,7 +942,7 @@ while running:
         )
 
     # --------------------------------------------------
-    # GAME
+    # GAME SCREEN
     # --------------------------------------------------
 
     elif game_state == "game":
@@ -563,11 +963,12 @@ while running:
         (0, 0)
     )
 
-    # Draw readable HUD text AFTER scaling.
+    # Draw readable HUD text after scaling.
     if game_state == "game":
         draw_hud_text(screen)
 
     pygame.display.flip()
+
     clock.tick(60)
 
 pygame.quit()
