@@ -1,4 +1,5 @@
 import pygame
+from visuals import draw_result_scene
 
 pygame.init()
 
@@ -241,16 +242,28 @@ def draw_player(surface, x, y, direction, walk_frame, is_walking):
     pygame.draw.rect(surface, (10, 13, 21), (x + 4, y + 30, 15, 2))
 
     if direction == "up":
-        # Back of head and hair.
-        pygame.draw.rect(surface, hair, (x + 5, y, 12, 3))
-        pygame.draw.rect(surface, hair, (x + 3, y + 2, 16, 7))
-        pygame.draw.rect(surface, hair_light, (x + 5, y + 2, 4, 1))
-        pygame.draw.rect(surface, skin_shadow, (x + 6, y + 9, 10, 5))
+        # Layered French crop: textured crown, tapered sides, and a clean nape.
+        pygame.draw.rect(surface, skin_shadow, (x + 6, y + 7, 10, 7))
+        pygame.draw.rect(surface, skin, (x + 8, y + 8, 7, 4))
+        pygame.draw.rect(surface, (45, 31, 25), (x + 5, y + 5, 12, 5))
+        pygame.draw.rect(surface, (56, 37, 27), (x + 4, y + 2, 14, 5))
+        pygame.draw.rect(surface, hair, (x + 5, y + 1, 12, 5))
+        pygame.draw.rect(surface, (48, 32, 26), (x + 6, y, 10, 3))
+        pygame.draw.rect(surface, hair_light, (x + 6, y + 1, 4, 2))
+        pygame.draw.rect(surface, (138, 87, 52), (x + 10, y + 1, 3, 1))
+        pygame.draw.line(surface, (126, 77, 46), (x + 7, y + 3), (x + 9, y + 2))
+        pygame.draw.line(surface, (126, 77, 46), (x + 12, y + 4), (x + 15, y + 3))
+        pygame.draw.rect(surface, (35, 27, 24), (x + 4, y + 4, 2, 4))
+        pygame.draw.rect(surface, (35, 27, 24), (x + 16, y + 4, 2, 4))
+        pygame.draw.line(surface, skin_shadow, (x + 7, y + 12), (x + 14, y + 12))
 
         # Hood and shoulders.
         pygame.draw.rect(surface, hoodie_light, (x + 3, y + 14, 16, 5))
         pygame.draw.rect(surface, hoodie, (x + 4, y + 17, 14, 9))
         pygame.draw.rect(surface, hoodie_light, (x + 7, y + 16, 8, 3))
+        pygame.draw.line(surface, (64, 91, 112), (x + 5, y + 19), (x + 8, y + 25))
+        pygame.draw.line(surface, (64, 91, 112), (x + 17, y + 19), (x + 14, y + 25))
+        pygame.draw.rect(surface, (11, 19, 31), (x + 7, y + 26, 10, 1))
 
         # Small cyan security emblem on the back.
         pygame.draw.rect(surface, shirt, (x + 9, y + 20, 4, 4))
@@ -1075,6 +1088,7 @@ def main():
     running = True
     blink_timer = 0
     show_prompt = True
+    ending_frame = 0
 
     while running:
         frame_counter += 1
@@ -1141,6 +1155,11 @@ def main():
         if message_timer > 0:
             message_timer -= 1
 
+        if game_state in ("lose", "win"):
+            ending_frame += 1
+        else:
+            ending_frame = 0
+
         # --------------------------------------------------
         # LOW-RESOLUTION PIXEL LAYER
         # --------------------------------------------------
@@ -1166,6 +1185,15 @@ def main():
             (WINDOW_WIDTH, WINDOW_HEIGHT)
         )
         screen.blit(scaled_canvas, (0, 0))
+        if game_state in ("lose", "win"):
+            # Endings use a native-resolution composition so the room reads
+            # clearly and its interface typography stays sharp at full size.
+            draw_result_scene(
+                screen,
+                game_state == "win",
+                ending_frame,
+                len(ITEM_DATA) - len(collected_items)
+            )
 
         # --------------------------------------------------
         # HIGH-RESOLUTION TEXT / EFFECTS
