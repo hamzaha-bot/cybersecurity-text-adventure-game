@@ -1,3 +1,5 @@
+![Cybersecurity Attack Game Banner](docs/cybersecurity-attack-banner.png)
+
 # Cybersecurity Attack Text Adventure Game
 
 A Python text-based adventure game where the player takes the role of a cybersecurity analyst responding to a ransomware attack.
