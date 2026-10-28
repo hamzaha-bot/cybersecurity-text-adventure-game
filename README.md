@@ -6,6 +6,10 @@ A Python text-based adventure game where the player takes the role of a cybersec
 
 The objective is to navigate through a company environment, collect six cybersecurity tools, and reach the Control Room only after collecting every item. Entering the Control Room too early results in a loss.
 
+## Gameplay Preview
+
+![Cybersecurity Attack Gameplay](docs/cybersecurity-attack-gameplay.gif)
+
 ## Gameplay Showcase
 
 ### Explore the Facility
