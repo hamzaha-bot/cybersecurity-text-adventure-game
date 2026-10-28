@@ -6,6 +6,20 @@ A Python text-based adventure game where the player takes the role of a cybersec
 
 The objective is to navigate through a company environment, collect six cybersecurity tools, and reach the Control Room only after collecting every item. Entering the Control Room too early results in a loss.
 
+## Gameplay Showcase
+
+### Explore the Facility
+![Main Lobby](screenshots/01-main-lobby-final.png)
+
+### Recover Cybersecurity Tools
+![Data Center](screenshots/02-data-center-final.png)
+
+### Ransomware Takes Control
+![Loss Screen](screenshots/03-loss-final.png)
+
+### System Restored
+![Victory Screen](screenshots/04-victory-final.png)
+
 ## Project Overview
 
 This project was originally developed as part of **IT 140: Introduction to Scripting** at Southern New Hampshire University.
