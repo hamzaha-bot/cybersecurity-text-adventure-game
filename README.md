@@ -1,48 +1,75 @@
 ![Cybersecurity Attack Game Banner](docs/cybersecurity-attack-banner.png)
 
-# Cybersecurity Attack Text Adventure Game
+# Cybersecurity Attack
 
-A Python text-based adventure game where the player takes the role of a cybersecurity analyst responding to a ransomware attack.
+A Python/Pygame cybersecurity adventure game where the player takes the role of a cybersecurity analyst responding to an active ransomware attack.
 
-The objective is to navigate through a company environment, collect six cybersecurity tools, and reach the Control Room only after collecting every item. Entering the Control Room too early results in a loss.
+Navigate through a compromised technology facility, recover six cybersecurity tools, and reach the Control Room to stop the Ransomware Bot before the system is lost.
+
+This repository contains both the **original academic text-based project** and a separately developed **enhanced portfolio version** featuring graphical environments, animated gameplay, visual inventory tracking, cinematic win/loss sequences, and sound effects.
+
+---
 
 ## Gameplay Preview
 
 ![Cybersecurity Attack Gameplay](docs/cybersecurity-attack-gameplay.gif)
 
+---
+
+## Enhanced Portfolio Version
+
+The enhanced version transforms the original terminal-based Python project into a visual Pygame experience while preserving the core navigation, inventory, item collection, and win/loss logic.
+
+### Features
+
+- Eight-room cybersecurity facility
+- Real-time player movement
+- Arrow key and WASD controls
+- Directional character artwork
+- Detailed pixel-art environments
+- Animated room transitions
+- Six collectible cybersecurity tools
+- Visual Security Toolkit inventory
+- Mission status interface
+- Interactive item recovery
+- Ransomware Bot confrontation
+- Cinematic victory and defeat sequences
+- Confetti and system-restoration effects
+- Cybersecurity-themed lighting and interface design
+- Sound effects for interactions and major game events
+- Mute/unmute control
+- Restart and replay functionality
+- Input validation and game-state management
+
+---
+
 ## Gameplay Showcase
 
 ### Explore the Facility
+
 ![Main Lobby](screenshots/01-main-lobby-final.png)
 
 ### Recover Cybersecurity Tools
+
 ![Data Center](screenshots/02-data-center-final.png)
 
 ### Ransomware Takes Control
+
 ![Loss Screen](screenshots/03-loss-final.png)
 
 ### System Restored
+
 ![Victory Screen](screenshots/04-victory-final.png)
 
-## Project Overview
+---
 
-This project was originally developed as part of **IT 140: Introduction to Scripting** at Southern New Hampshire University.
+## Mission
 
-The project began with planning and design, including a game storyboard, room map, and pseudocode. The design was then developed into a fully functional Python text-based game using functions, dictionaries, lists, loops, conditional statements, user input, and input validation.
+A ransomware attack has compromised the company's systems.
 
-The final Project Two submission earned **140/140**.
+The player is a cybersecurity analyst responsible for recovering the security tools needed to restore the environment and stop the attack.
 
-## Story
-
-A ransomware attack has taken control of the company's systems.
-
-The player is a cybersecurity analyst responsible for stopping the attack. Before entering the Control Room and confronting the **Ransomware Bot**, the player must collect six security tools located throughout the building.
-
-Entering the Control Room before collecting all six tools allows the ransomware attack to succeed.
-
-## Objective
-
-Collect all six cybersecurity tools:
+Six tools are distributed throughout the facility:
 
 - MFA Token
 - Firewall Key
@@ -51,11 +78,17 @@ Collect all six cybersecurity tools:
 - Encryption Key
 - Access Card
 
-After collecting all six items, enter the **Control Room** to stop the Ransomware Bot.
+The player must collect all six tools before entering the **Control Room**.
+
+Entering the Control Room too early allows the **Ransomware Bot** to take control of the system.
+
+Recovering every tool before entering the Control Room allows the player to neutralize the ransomware attack and restore the network.
+
+---
 
 ## Game Map
 
-The game contains eight rooms:
+The game contains eight connected rooms.
 
 | Room | Item / Role |
 | --- | --- |
@@ -72,13 +105,105 @@ The game contains eight rooms:
 
 ![Cybersecurity Attack Game Map](docs/game_map.png)
 
-The editable Draw.io version is available at:
+The editable Draw.io version is preserved at:
 
-`original/game_map.drawio`
+```text
+original/game_map.drawio
+```
 
-## Game Commands
+---
 
-Players interact with the original version of the game through text commands.
+## Controls
+
+| Control | Action |
+| --- | --- |
+| `Enter` | Start game |
+| `Arrow Keys` / `WASD` | Move character |
+| `E` | Interact / collect item |
+| `M` | Mute or unmute sound |
+| `R` | Restart after win/loss |
+| `Esc` | Return to title screen |
+
+---
+
+## Running the Enhanced Game
+
+### Requirements
+
+- Python 3
+- pygame-ce
+
+Install pygame-ce if needed:
+
+```bash
+py -m pip install pygame-ce
+```
+
+Clone or download the repository, then run:
+
+```bash
+py enhanced/main.py
+```
+
+If your system uses `python` instead of `py`:
+
+```bash
+python enhanced/main.py
+```
+
+---
+
+## Sound Design
+
+The enhanced version includes custom sound effects for:
+
+- Item pickup
+- Room transitions
+- Interface interactions
+- Ransomware warnings
+- Victory / system restoration
+
+The sound files are stored in:
+
+```text
+enhanced/assets/sounds/
+```
+
+Press `M` during gameplay to mute or unmute audio.
+
+---
+
+## Original Academic Version
+
+This project was originally developed for **IT 140: Introduction to Scripting** at Southern New Hampshire University.
+
+The original version is preserved separately so the completed academic project remains available alongside the enhanced portfolio edition.
+
+The original development process included:
+
+- Game storyboard development
+- Room-map planning
+- Movement pseudocode
+- Item-collection pseudocode
+- Navigation logic
+- Inventory management
+- Input validation
+- Win/loss logic
+- Testing and debugging
+
+The final Project Two submission earned **140/140**.
+
+The original files are located in:
+
+```text
+original/
+```
+
+---
+
+## Original Text-Based Controls
+
+The original academic version uses terminal commands.
 
 ### Movement
 
@@ -101,91 +226,113 @@ Example:
 get MFA Token
 ```
 
-## Features
+---
 
-- Eight-room game environment
-- Room-based navigation
-- Six collectible cybersecurity tools
-- Inventory tracking
-- Item collection
-- Direction validation
-- Invalid-command handling
-- Player status display
-- Win and loss conditions
-- Functions for organizing gameplay
-- Dictionary-based room and item system
-
-## Python Concepts Demonstrated
-
-This project demonstrates the use of:
-
-- Python functions
-- Dictionaries
-- Lists
-- `while` loops
-- `if`, `elif`, and `else` statements
-- User input
-- String processing
-- Input validation
-- Inventory management
-- Program flow control
-- Debugging and testing
-- Comments and descriptive naming conventions
-
-## Gameplay
+## Original Game Screenshots
 
 ### Game Instructions and Starting Room
-
-The game begins in the **Main Lobby** with an empty inventory. The player receives the objective and available commands.
 
 ![Game Instructions](screenshots/01-game-instructions.png)
 
 ### Room Navigation
 
-Players move between connected rooms using directional commands. In this example, the player moves west from the Main Lobby to the Security Office.
-
 ![Room Navigation](screenshots/02-room-navigation.png)
 
-### Item Collection and Inventory
-
-Items can be collected using the `get <item name>` command. After an item is collected, it is added to the player's inventory and removed from the room.
+### Item Collection
 
 ![Item Collection](screenshots/03-item-collection.png)
 
 ### Input Validation
 
-The game detects commands that do not match a valid movement or item command and allows the player to continue playing.
-
 ![Invalid Command](screenshots/04-invalid-command.png)
 
 ### Losing Condition
-
-Entering the Control Room before collecting all six security tools causes the Ransomware Bot to take over the system.
 
 ![Losing Screen](screenshots/05-losing-screen.png)
 
 ### Winning Condition
 
-After collecting all six cybersecurity tools, the player can safely enter the Control Room and stop the Ransomware Bot.
-
 ![Winning Screen](screenshots/06-winning-screen.png)
+
+---
+
+## Python Concepts Demonstrated
+
+The project demonstrates practical use of:
+
+- Python functions
+- Dictionaries
+- Lists
+- Loops
+- Conditional statements
+- User input
+- String processing
+- Input validation
+- Inventory management
+- Program and game-state control
+- Event handling
+- Game loops
+- Movement and collision logic
+- Animation timing
+- Audio playback
+- Debugging
+- Testing
+- Pygame graphics
+
+---
 
 ## Testing
 
-The game was tested across multiple scenarios to verify its functionality.
+Both versions were tested across multiple gameplay scenarios.
 
 Testing included:
 
 - Valid room movement
-- Invalid room movement
+- Invalid movement attempts
 - Successful item collection
-- Incorrect item requests
-- Completely invalid commands
+- Incorrect interactions
 - Inventory updates
-- Losing by entering the Control Room too early
-- Winning after collecting all six cybersecurity tools
+- Room transitions
+- Character movement
+- Entering the Control Room too early
+- Winning after collecting all six tools
+- Restart behavior
+- Returning to the title screen
+- Sound playback
+- Mute/unmute functionality
 
-A complete winning route was tested from the Main Lobby through all six item locations before entering the Control Room.
+A complete winning route was also tested through all six item locations before entering the Control Room.
+
+---
+
+## Development Process
+
+The project evolved through several stages:
+
+1. Created the cybersecurity ransomware storyline
+2. Designed the eight-room environment
+3. Created the game storyboard and room map
+4. Wrote movement pseudocode
+5. Wrote item-collection pseudocode
+6. Developed the original terminal-based Python game
+7. Added inventory tracking and input validation
+8. Implemented win and loss conditions
+9. Preserved the completed academic version
+10. Created a separate enhanced Pygame version
+11. Added graphical room environments
+12. Added real-time player movement
+13. Redesigned the player character and directional views
+14. Added the visual Security Toolkit inventory
+15. Added animated room transitions and interactions
+16. Redesigned the Control Room and Ransomware Bot confrontation
+17. Added cinematic victory and defeat sequences
+18. Added visual effects, confetti, and system restoration
+19. Added sound effects and mute controls
+20. Added a GitHub banner, gameplay GIF, and final screenshots
+
+This progression demonstrates how an initial scripting assignment was expanded into a more complete Python game-development portfolio project.
+
+---
 
 ## Project Structure
 
@@ -194,6 +341,22 @@ cybersecurity-text-adventure-game/
 │
 ├── README.md
 │
+├── docs/
+│   ├── cybersecurity-attack-banner.png
+│   ├── cybersecurity-attack-gameplay.gif
+│   └── game_map.png
+│
+├── enhanced/
+│   ├── main.py
+│   └── assets/
+│       ├── sprites/
+│       └── sounds/
+│           ├── pickup.wav
+│           ├── transition.wav
+│           ├── ui_click.wav
+│           ├── victory.wav
+│           └── warning.wav
+│
 ├── original/
 │   ├── text_based_game.py
 │   ├── game_map.drawio
@@ -201,80 +364,44 @@ cybersecurity-text-adventure-game/
 │   ├── move.pseudo
 │   └── get_item.pseudo
 │
-├── docs/
-│   └── game_map.png
-│
 └── screenshots/
     ├── 01-game-instructions.png
+    ├── 01-main-lobby-final.png
     ├── 02-room-navigation.png
+    ├── 02-data-center-final.png
     ├── 03-item-collection.png
+    ├── 03-loss-final.png
     ├── 04-invalid-command.png
+    ├── 04-victory-final.png
     ├── 05-losing-screen.png
     └── 06-winning-screen.png
 ```
 
-The original folder contains a portfolio-ready copy of the completed academic project before future gameplay enhancements are introduced.
+---
 
-## Running the Original Game
+## Possible Next Steps
 
-### Requirements
+The main desktop game is complete. Possible future expansion could include:
 
-- Python 3
+- Browser-based deployment
+- Touch controls for mobile devices
+- Responsive layouts for different screen sizes
+- Additional cybersecurity missions
+- Additional rooms or levels
+- Packaged desktop releases
+- Mobile application deployment
 
-### Run the Game
-
-Clone or download the repository.
-
-From the project folder, run:
-
-```bash
-python original/text_based_game.py
-```
-
-Then follow the instructions displayed in the terminal.
-
-## Development Process
-
-The project was developed in stages:
-
-1. Created the cybersecurity theme and storyline
-2. Designed the eight-room environment
-3. Created pseudocode for room movement
-4. Created pseudocode for item collection
-5. Developed and tested a simplified navigation prototype
-6. Converted the design into a complete Python game
-7. Added inventory and item collection
-8. Added input validation
-9. Added win and loss conditions
-10. Tested multiple gameplay scenarios
-
-This development process demonstrates how requirements, pseudocode, planning, debugging, and testing can be translated into a functional Python application.
-
-## Future Enhancements
-
-The portfolio-ready version of the original academic project will remain preserved while an enhanced version of the game is developed separately.
-
-Planned improvements include:
-
-- Web-based user interface
-- Clickable movement controls
-- Visual inventory panel
-- Improved room descriptions
-- Cybersecurity-themed graphics
-- Improved story interactions
-- Restart and replay options
-- Enhanced win and loss screens
-- Optional sound effects
-- Improved mobile usability
-- Online deployment so anyone can play through a web browser
+---
 
 ## Academic Project Note
 
-This project originated from an academic programming assignment and has been preserved as part of my software development portfolio.
+This project originated from an academic programming assignment and was later independently expanded into an enhanced portfolio project.
 
-The repository is intended to showcase my own game design, planning, Python development, debugging, and testing work.
+The repository preserves the original academic implementation while separately documenting the additional development, game design, interface, animation, audio, debugging, and testing work completed afterward.
 
-Course assignment instructions, grading rubrics, templates, and other course materials are not included in the public repository.
+Course assignment instructions, grading rubrics, templates, and other course materials are not included in this public repository.
+
+---
 
 ## Author
 
