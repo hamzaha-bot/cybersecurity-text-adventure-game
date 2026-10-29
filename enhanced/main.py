@@ -1,4 +1,5 @@
 import math
+from pathlib import Path
 import pygame
 
 pygame.init()
@@ -19,6 +20,68 @@ pygame.display.set_caption("Cybersecurity Attack")
 canvas = pygame.Surface((BASE_WIDTH, BASE_HEIGHT))
 character_canvas = pygame.Surface((BASE_WIDTH, BASE_HEIGHT), pygame.SRCALPHA)
 clock = pygame.time.Clock()
+
+
+# --------------------------------------------------
+# AUDIO
+# --------------------------------------------------
+
+SOUND_DIR = Path(__file__).resolve().parent / "assets" / "sounds"
+SOUND_FILES = {
+    "pickup": "pickup.wav",
+    "transition": "transition.wav",
+    "ui_click": "ui_click.wav",
+    "victory": "victory.wav",
+    "warning": "warning.wav",
+}
+SOUND_VOLUMES = {
+    "pickup": 0.48,
+    "transition": 0.34,
+    "ui_click": 0.28,
+    "victory": 0.50,
+    "warning": 0.42,
+}
+
+sounds = {}
+sound_available = False
+sound_muted = False
+
+def init_audio():
+    """Load optional effects without ever preventing the game from starting."""
+    global sound_available, sounds
+    try:
+        if not pygame.mixer.get_init():
+            pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512)
+
+        loaded = {}
+        for name, filename in SOUND_FILES.items():
+            path = SOUND_DIR / filename
+            if not path.is_file():
+                continue
+            effect = pygame.mixer.Sound(str(path))
+            effect.set_volume(SOUND_VOLUMES.get(name, 0.4))
+            loaded[name] = effect
+
+        sounds = loaded
+        sound_available = bool(sounds)
+    except (pygame.error, OSError):
+        sounds = {}
+        sound_available = False
+
+def play_sound(name):
+    if sound_available and not sound_muted:
+        effect = sounds.get(name)
+        if effect is not None:
+            effect.play()
+
+def toggle_mute():
+    global sound_muted
+    sound_muted = not sound_muted
+    if sound_available and sound_muted:
+        pygame.mixer.stop()
+    return sound_muted
+
+init_audio()
 
 # --------------------------------------------------
 # COLORS
@@ -826,6 +889,7 @@ def start_room_transition(target_room, direction):
     global transition_active, transition_alpha, transition_phase
     global transition_target, transition_direction, pending_result
 
+    play_sound("transition")
     transition_active = True
     transition_alpha = 0
     transition_phase = "out"
@@ -854,6 +918,7 @@ def update_transition():
             if pending_result:
                 game_state = pending_result
                 result_timer = 0
+                play_sound("victory" if pending_result == "victory" else "warning")
 
             transition_phase = "in"
     else:
@@ -906,6 +971,7 @@ def handle_interaction():
         if value not in collected_items:
             collected_items.add(value)
             inventory.append(value)
+            play_sound("pickup")
             interaction_message = value.upper() + " RECOVERED"
             message_timer = 100
 
@@ -3207,22 +3273,30 @@ def main():
                 running = False
 
             elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_m:
+                    toggle_mute()
+                    continue
+
                 if game_state == "title":
                     if event.key == pygame.K_RETURN:
+                        play_sound("ui_click")
                         reset_game()
 
                 elif game_state == "game":
                     if event.key == pygame.K_ESCAPE:
+                        play_sound("ui_click")
                         game_state = "title"
                     elif event.key == pygame.K_e and not transition_active:
                         handle_interaction()
 
                 elif game_state in ("victory", "defeat"):
                     if event.key == pygame.K_ESCAPE:
+                        play_sound("ui_click")
                         game_state = "title"
                     elif event.key == pygame.K_r:
                         ready = result_timer >= 390 if game_state == "victory" else result_timer >= 315
                         if ready and not transition_active:
+                            play_sound("ui_click")
                             reset_game()
 
         if game_state == "game" and not transition_active:
